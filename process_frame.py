@@ -1,6 +1,7 @@
 import cv2
 import mediapipe as mp
 import time
+import data_transmission as dt
 mp_hands = mp.solutions.hands
 hands = mp_hands.Hands(static_image_mode=False,
                        max_num_hands=2,
@@ -12,6 +13,8 @@ class Process:
         self.hands=hands
         self.mpDraw=mpDraw
         self.img = img
+        self.mylmList=[]
+        self.data=[]
     def process_frame(self):
         start_time = time.time()
 
@@ -27,6 +30,19 @@ class Process:
         # 将RGB图像输入模型，获取预测结果
         results = self.hands.process(img_RGB)
 
+        #
+        if results.multi_hand_landmarks:
+            for hand_landmarks in results.multi_hand_landmarks:
+                for id, lm in enumerate(hand_landmarks.landmark):
+                    px, py, pz = int(lm.x * w), int(lm.y * h), int(lm.z * 1000)
+                    self.mylmList.append([px, py, pz])
+
+            for lm in self.mylmList:
+                self.data.extend([lm[0], 720 - lm[1], lm[2]])
+            transfer=dt.Transfer(self.data)
+            transfer.sent()
+
+
         if results.multi_hand_landmarks:  # 如果有检测到手
 
             handness_str = ''
@@ -37,6 +53,8 @@ class Process:
                 hand_21 = results.multi_hand_landmarks[hand_idx]
                 for index, landmarks in enumerate(hand_21.landmark):
                     print(index, landmarks)
+
+
                 # 可视化关键点及骨架连线
                 mpDraw.draw_landmarks(img, hand_21, mp_hands.HAND_CONNECTIONS)
 
