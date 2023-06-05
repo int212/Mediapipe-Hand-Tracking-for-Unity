@@ -56,11 +56,11 @@ class Transfer:
         self.sock.sendto(str.encode(str(self.data)), self.serverAddressPort)
 ```
 
-- **`Transfer`：**它是一个用于数据传输的类。它可以将任意类型的数据转换为字符串，并通过UDP协议发送到指定的服务器。
-- `__init__`**：**接受一个参数data，表示要传输的数据，并将其赋值给**`self.data`**，表示这个类的一个属性。
-- z'z**`self.sock`：**它是一个socket对象，用于创建一个UDP协议的套接字。这个套接字可以在不建立连接的情况下，向任意目标发送数据包。这个属性在类的构造方法中初始化，也可以在类的其他方法中使用，或者在类的外部关闭。
-- **`self.serverAddressPort`：**它是一个元组，表示服务器的IP地址和端口号。
-- **`sent`：**它的功能是将**`self.data`**编码为字符串，并通过**`self.sock`**发送到**`self.serverAddressPort`**指定的服务器。
+- `Transfer`：它是一个用于数据传输的类。它可以将任意类型的数据转换为字符串，并通过UDP协议发送到指定的服务器。
+- `__init__`：接受一个参数data，表示要传输的数据，并将其赋值给**`self.data`，表示这个类的一个属性。
+- z'z`self.sock`：它是一个socket对象，用于创建一个UDP协议的套接字。这个套接字可以在不建立连接的情况下，向任意目标发送数据包。这个属性在类的构造方法中初始化，也可以在类的其他方法中使用，或者在类的外部关闭。
+- `self.serverAddressPort`：它是一个元组，表示服务器的IP地址和端口号。
+- `sent`：它的功能是将**`self.data`编码为字符串，并通过`self.sock`发送到`self.serverAddressPort`指定的服务器。
 
 #### Process：
 
